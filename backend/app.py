@@ -34,11 +34,11 @@ def register():
         password = data.get('password')
         
         if not username or not password:
-            return jsonify({'error': 'Username and password are required'}), 400
+            return jsonify({'error': 'Имя пользователя и пароль обязательны'}), 400
         
         # Проверяем, существует ли пользователь
         if users_collection.find_one({'username': username}):
-            return jsonify({'error': 'Username already exists'}), 400
+            return jsonify({'error': 'Пользователь с таким именем уже существует'}), 400
         
         # Создаем пользователя (пароль в открытом виде - учебный пример!)
         user = {
@@ -51,7 +51,7 @@ def register():
         user_id = str(result.inserted_id)
         
         return jsonify({
-            'message': 'User created successfully',
+            'message': 'Пользователь успешно создан',
             'user_id': user_id,
             'username': username
         }), 201
@@ -67,20 +67,20 @@ def login():
         password = data.get('password')
         
         if not username or not password:
-            return jsonify({'error': 'Username and password are required'}), 400
+            return jsonify({'error': 'Имя пользователя и пароль обязательны'}), 400
         
         # Находим пользователя
         user = users_collection.find_one({'username': username})
         
         if not user:
-            return jsonify({'error': 'Invalid credentials'}), 401
+            return jsonify({'error': 'Неверное имя пользователя или пароль'}), 401
         
         # Проверяем пароль (простое сравнение - учебный пример!)
         if user['password'] != password:
-            return jsonify({'error': 'Invalid credentials'}), 401
+            return jsonify({'error': 'Неверное имя пользователя или пароль'}), 401
         
         return jsonify({
-            'message': 'Login successful',
+            'message': 'Вход выполнен успешно',
             'user_id': str(user['_id']),
             'username': username
         }), 200
@@ -95,7 +95,7 @@ def get_entries():
         user_id = request.args.get('user_id')
         
         if not user_id:
-            return jsonify({'error': 'User ID required'}), 401
+            return jsonify({'error': 'Требуется авторизация'}), 401
         
         entries = list(entries_collection.find({'user_id': user_id}).sort('date', -1))
         # Конвертируем ObjectId в строку для JSON
@@ -113,7 +113,7 @@ def create_entry():
         user_id = data.get('user_id')
         
         if not user_id:
-            return jsonify({'error': 'User ID required'}), 401
+            return jsonify({'error': 'Требуется авторизация'}), 401
         
         new_entry = {
             'user_id': user_id,
@@ -138,12 +138,12 @@ def update_entry(entry_id):
         user_id = data.get('user_id')
         
         if not user_id:
-            return jsonify({'error': 'User ID required'}), 401
+            return jsonify({'error': 'Требуется авторизация'}), 401
         
         # Проверяем, что запись принадлежит пользователю
         entry = entries_collection.find_one({'_id': ObjectId(entry_id), 'user_id': user_id})
         if not entry:
-            return jsonify({'error': 'Entry not found'}), 404
+            return jsonify({'error': 'Запись не найдена'}), 404
         
         update_data = {
             'title': data.get('title'),
@@ -170,21 +170,21 @@ def delete_entry(entry_id):
         user_id = request.args.get('user_id')
         
         if not user_id:
-            return jsonify({'error': 'User ID required'}), 401
+            return jsonify({'error': 'Требуется авторизация'}), 401
         
         result = entries_collection.delete_one({'_id': ObjectId(entry_id), 'user_id': user_id})
         
         if result.deleted_count == 0:
-            return jsonify({'error': 'Entry not found'}), 404
+            return jsonify({'error': 'Запись не найдена'}), 404
         
-        return jsonify({'message': 'Entry deleted successfully'}), 200
+        return jsonify({'message': 'Запись успешно удалена'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 # Проверка здоровья сервера
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    return jsonify({'status': 'ok', 'message': 'Server is running'}), 200
+    return jsonify({'status': 'ok', 'message': 'Сервер работает'}), 200
 
 if __name__ == '__main__':
     print("Starting Flask server...")
