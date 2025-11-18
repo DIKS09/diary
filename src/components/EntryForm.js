@@ -10,6 +10,10 @@ function EntryForm({ onSubmit, onCancel, initialData, isEditing }) {
     if (initialData) {
       setTitle(initialData.title || '');
       setContent(initialData.content || '');
+    } else {
+      // Сброс формы если нет initialData
+      setTitle('');
+      setContent('');
     }
   }, [initialData]);
 

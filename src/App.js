@@ -3,7 +3,9 @@ import './App.css';
 import DiaryEntry from './components/DiaryEntry';
 import EntryForm from './components/EntryForm';
 import Auth from './components/Auth';
-import { FaSignOutAlt } from 'react-icons/fa';
+import Calendar from './components/Calendar';
+import Habits from './components/Habits';
+import { FaSignOutAlt, FaList, FaCalendarAlt, FaCheckSquare } from 'react-icons/fa';
 
 const API_URL = 'http://localhost:5000/api';
 
@@ -15,6 +17,8 @@ function App() {
   const [editingEntry, setEditingEntry] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [username, setUsername] = useState(localStorage.getItem('username'));
+  const [viewMode, setViewMode] = useState('list'); // 'list', 'calendar', или 'habits'
+
 
   // Загрузка записей из базы данных
   useEffect(() => {
@@ -108,6 +112,20 @@ function App() {
   const handleEdit = (entry) => {
     setEditingEntry(entry);
     setShowForm(true);
+    setViewMode('list'); // Переключаемся на режим списка для редактирования
+  };
+
+  const handleCreateForDate = (date) => {
+    // Создаем шаблон записи с выбранной датой
+    const newEntry = {
+      title: '',
+      content: '',
+      date: date.toISOString(),
+      icon: 'smile'
+    };
+    setEditingEntry(newEntry);
+    setShowForm(true);
+    setViewMode('list'); // Переключаемся на режим списка для создания
   };
 
   const handleCancelEdit = () => {
@@ -163,12 +181,37 @@ function App() {
             <span className="username-badge">{username}</span>
           </div>
           <div className="header-actions">
-            <button 
-              className="add-button"
-              onClick={() => setShowForm(!showForm)}
-            >
-              {showForm ? '✕ Закрыть' : '+ Новая запись'}
-            </button>
+            <div className="view-toggle">
+              <button 
+                className={`view-button ${viewMode === 'list' ? 'active' : ''}`}
+                onClick={() => setViewMode('list')}
+                title="Список"
+              >
+                <FaList />
+              </button>
+              <button 
+                className={`view-button ${viewMode === 'calendar' ? 'active' : ''}`}
+                onClick={() => setViewMode('calendar')}
+                title="Календарь"
+              >
+                <FaCalendarAlt />
+              </button>
+              <button 
+                className={`view-button ${viewMode === 'habits' ? 'active' : ''}`}
+                onClick={() => setViewMode('habits')}
+                title="Привычки"
+              >
+                <FaCheckSquare />
+              </button>
+            </div>
+            {viewMode === 'list' && (
+              <button 
+                className="add-button"
+                onClick={() => setShowForm(!showForm)}
+              >
+                {showForm ? '✕ Закрыть' : '+ Новая запись'}
+              </button>
+            )}
             <button 
               className="logout-button"
               onClick={handleLogout}
@@ -198,36 +241,47 @@ function App() {
           />
         )}
 
-        <div className="entries-container">
-          {loading ? (
-            <div className="loading-state">
-              <div className="spinner"></div>
-              <p>Загрузка записей...</p>
-            </div>
-          ) : entries.length === 0 ? (
-            <div className="empty-state">
-              <div className="empty-icon">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M7 7H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M7 12H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M7 17H13" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
+        {viewMode === 'habits' ? (
+          <Habits />
+        ) : viewMode === 'calendar' ? (
+          <Calendar 
+            entries={entries} 
+            onEdit={handleEdit}
+            onCreateForDate={handleCreateForDate}
+            onViewList={() => setViewMode('list')}
+          />
+        ) : (
+          <div className="entries-container">
+            {loading ? (
+              <div className="loading-state">
+                <div className="spinner"></div>
+                <p>Загрузка записей...</p>
               </div>
-              <h2>Начните писать свою историю</h2>
-              <p>Создайте первую запись в своем дневнике</p>
-            </div>
-          ) : (
-            entries.map(entry => (
-              <DiaryEntry 
-                key={entry._id}
-                entry={entry}
-                onDelete={deleteEntry}
-                onEdit={handleEdit}
-              />
-            ))
-          )}
-        </div>
+            ) : entries.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-icon">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M7 7H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M7 12H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M7 17H13" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  </svg>
+                </div>
+                <h2>Начните писать свою историю</h2>
+                <p>Создайте первую запись в своем дневнике</p>
+              </div>
+            ) : (
+              entries.map(entry => (
+                <DiaryEntry 
+                  key={entry._id}
+                  entry={entry}
+                  onDelete={deleteEntry}
+                  onEdit={handleEdit}
+                />
+              ))
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

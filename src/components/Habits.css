@@ -1,0 +1,369 @@
+.habits-container {
+  animation: slideIn 0.5s ease;
+}
+
+.habits-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.habits-title-section {
+  flex: 1;
+}
+
+.habits-title {
+  font-size: 2rem;
+  color: #E8F5F5;
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.habits-subtitle {
+  color: #B8D9DB;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.completion-widget {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.completion-circle {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+
+.progress-ring-bg {
+  fill: none;
+  stroke: rgba(93, 175, 179, 0.2);
+  stroke-width: 8;
+}
+
+.progress-ring-fill {
+  fill: none;
+  stroke: #5DAFB3;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease;
+  filter: drop-shadow(0 0 8px rgba(93, 175, 179, 0.5));
+}
+
+.completion-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.completion-percent {
+  display: block;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #E8F5F5;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.completion-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #B8D9DB;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.add-habit-button {
+  background: linear-gradient(135deg, #5DAFB3 0%, #4A9DA1 100%);
+  border: 2px solid rgba(93, 175, 179, 0.3);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  user-select: none;
+}
+
+.add-habit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(93, 175, 179, 0.4);
+  border-color: #5DAFB3;
+}
+
+.habit-form {
+  background: linear-gradient(135deg, rgba(10, 95, 108, 0.5) 0%, rgba(10, 95, 108, 0.3) 100%);
+  border: 2px solid rgba(93, 175, 179, 0.3);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px rgba(10, 95, 108, 0.3);
+  display: flex;
+  gap: 1rem;
+  animation: slideIn 0.3s ease;
+}
+
+.habit-input {
+  flex: 1;
+  background: rgba(10, 95, 108, 0.3);
+  border: 2px solid rgba(93, 175, 179, 0.3);
+  border-radius: 12px;
+  padding: 1rem;
+  color: #E8F5F5;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.habit-input:focus {
+  outline: none;
+  border-color: #5DAFB3;
+  background: rgba(10, 95, 108, 0.4);
+  box-shadow: 0 0 0 3px rgba(93, 175, 179, 0.1);
+}
+
+.habit-input::placeholder {
+  color: #8FC3C5;
+}
+
+.save-habit-button {
+  background: linear-gradient(135deg, #5DAFB3 0%, #4A9DA1 100%);
+  border: 2px solid rgba(93, 175, 179, 0.3);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  user-select: none;
+}
+
+.save-habit-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(93, 175, 179, 0.4);
+}
+
+.loading-habits {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #B8D9DB;
+}
+
+.empty-habits {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, rgba(10, 95, 108, 0.4) 0%, rgba(10, 95, 108, 0.2) 100%);
+  border-radius: 20px;
+  border: 2px solid rgba(93, 175, 179, 0.3);
+  backdrop-filter: blur(20px);
+}
+
+.empty-habits-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-habits h3 {
+  color: #E8F5F5;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.empty-habits p {
+  color: #B8D9DB;
+  font-size: 1rem;
+}
+
+.habits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.habit-card {
+  background: linear-gradient(135deg, rgba(10, 95, 108, 0.5) 0%, rgba(10, 95, 108, 0.3) 100%);
+  border: 2px solid rgba(93, 175, 179, 0.3);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px rgba(10, 95, 108, 0.3);
+}
+
+.habit-card:hover {
+  border-color: #5DAFB3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(93, 175, 179, 0.4);
+}
+
+.habit-checkbox-container {
+  flex-shrink: 0;
+}
+
+.habit-checkbox {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(93, 175, 179, 0.3);
+  border-radius: 12px;
+  background: rgba(10, 95, 108, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: transparent;
+}
+
+.habit-checkbox:hover {
+  border-color: #5DAFB3;
+  background: rgba(93, 175, 179, 0.2);
+  transform: scale(1.1);
+}
+
+.habit-checkbox.checked {
+  background: linear-gradient(135deg, #5DAFB3 0%, #4A9DA1 100%);
+  border-color: #5DAFB3;
+  color: white;
+  box-shadow: 0 4px 15px rgba(93, 175, 179, 0.4);
+}
+
+.habit-checkbox.checked:hover {
+  transform: scale(1.05);
+}
+
+.habit-info {
+  flex: 1;
+}
+
+.habit-name {
+  font-size: 1.25rem;
+  color: #E8F5F5;
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.habit-name.completed {
+  color: #8FC3C5;
+  text-decoration: line-through;
+  opacity: 0.8;
+}
+
+.habit-stats {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.habit-streak,
+.habit-rate {
+  font-size: 0.9rem;
+  color: #B8D9DB;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.habit-streak {
+  font-weight: 600;
+}
+
+.delete-habit-button {
+  background: rgba(239, 68, 68, 0.15);
+  border: 2px solid rgba(239, 68, 68, 0.3);
+  color: #EF4444;
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.delete-habit-button:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: rgba(239, 68, 68, 0.5);
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .habits-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .completion-widget {
+    justify-content: center;
+  }
+
+  .habits-title {
+    font-size: 1.5rem;
+  }
+
+  .habit-form {
+    flex-direction: column;
+  }
+
+  .habit-card {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .habit-checkbox {
+    width: 40px;
+    height: 40px;
+  }
+
+  .habit-name {
+    font-size: 1.1rem;
+  }
+
+  .habit-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+

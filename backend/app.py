@@ -13,6 +13,7 @@ client = MongoClient('mongodb://localhost:27017/')
 db = client['diary_db']
 entries_collection = db['entries']
 users_collection = db['users']
+habits_collection = db['habits']
 
 # Список иконок для случайного выбора (ключи)
 ICON_KEYS = [
@@ -185,6 +186,110 @@ def delete_entry(entry_id):
 @app.route('/api/health', methods=['GET'])
 def health_check():
     return jsonify({'status': 'ok', 'message': 'Сервер работает'}), 200
+
+# ===== HABITS ENDPOINTS =====
+
+# Получить все привычки пользователя
+@app.route('/api/habits', methods=['GET'])
+def get_habits():
+    try:
+        user_id = request.args.get('user_id')
+        if not user_id:
+            return jsonify({'error': 'Требуется авторизация'}), 401
+        
+        habits = list(habits_collection.find({'user_id': user_id}))
+        
+        for habit in habits:
+            habit['_id'] = str(habit['_id'])
+        
+        return jsonify(habits), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Создать новую привычку
+@app.route('/api/habits', methods=['POST'])
+def create_habit():
+    try:
+        data = request.json
+        user_id = data.get('user_id')
+        name = data.get('name')
+        
+        if not user_id or not name:
+            return jsonify({'error': 'Требуется название привычки'}), 400
+        
+        new_habit = {
+            'user_id': user_id,
+            'name': name,
+            'completed_dates': [],
+            'created_at': datetime.utcnow().isoformat()
+        }
+        
+        result = habits_collection.insert_one(new_habit)
+        new_habit['_id'] = str(result.inserted_id)
+        
+        return jsonify(new_habit), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Переключить выполнение привычки (добавить/удалить дату)
+@app.route('/api/habits/<habit_id>/toggle', methods=['POST'])
+def toggle_habit(habit_id):
+    try:
+        data = request.json
+        user_id = data.get('user_id')
+        date = data.get('date')  # формат: YYYY-MM-DD
+        
+        if not user_id or not date:
+            return jsonify({'error': 'Требуется дата'}), 400
+        
+        habit = habits_collection.find_one({
+            '_id': ObjectId(habit_id),
+            'user_id': user_id
+        })
+        
+        if not habit:
+            return jsonify({'error': 'Привычка не найдена'}), 404
+        
+        completed_dates = habit.get('completed_dates', [])
+        
+        if date in completed_dates:
+            # Удаляем дату (снимаем галочку)
+            completed_dates.remove(date)
+        else:
+            # Добавляем дату (ставим галочку)
+            completed_dates.append(date)
+        
+        habits_collection.update_one(
+            {'_id': ObjectId(habit_id)},
+            {'$set': {'completed_dates': completed_dates}}
+        )
+        
+        updated_habit = habits_collection.find_one({'_id': ObjectId(habit_id)})
+        updated_habit['_id'] = str(updated_habit['_id'])
+        
+        return jsonify(updated_habit), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Удалить привычку
+@app.route('/api/habits/<habit_id>', methods=['DELETE'])
+def delete_habit(habit_id):
+    try:
+        user_id = request.args.get('user_id')
+        if not user_id:
+            return jsonify({'error': 'Требуется авторизация'}), 401
+        
+        result = habits_collection.delete_one({
+            '_id': ObjectId(habit_id),
+            'user_id': user_id
+        })
+        
+        if result.deleted_count == 0:
+            return jsonify({'error': 'Привычка не найдена'}), 404
+        
+        return jsonify({'message': 'Привычка успешно удалена'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     print("Starting Flask server...")
