@@ -5,7 +5,9 @@ import EntryForm from './components/EntryForm';
 import Auth from './components/Auth';
 import Calendar from './components/Calendar';
 import Habits from './components/Habits';
-import { FaSignOutAlt, FaList, FaCalendarAlt, FaCheckSquare } from 'react-icons/fa';
+import Feedback from './components/Feedback';
+import News from './components/News';
+import { FaSignOutAlt, FaList, FaCalendarAlt, FaCheckSquare, FaCommentDots, FaNewspaper } from 'react-icons/fa';
 
 const API_URL = 'http://localhost:5000/api';
 
@@ -17,7 +19,8 @@ function App() {
   const [editingEntry, setEditingEntry] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [username, setUsername] = useState(localStorage.getItem('username'));
-  const [viewMode, setViewMode] = useState('list'); // 'list', 'calendar', или 'habits'
+  const [viewMode, setViewMode] = useState('list'); // 'list', 'calendar', 'habits', или 'news'
+  const [showFeedback, setShowFeedback] = useState(false);
 
 
   // Загрузка записей из базы данных
@@ -203,6 +206,13 @@ function App() {
               >
                 <FaCheckSquare />
               </button>
+              <button 
+                className={`view-button ${viewMode === 'news' ? 'active' : ''}`}
+                onClick={() => setViewMode('news')}
+                title="Новости"
+              >
+                <FaNewspaper />
+              </button>
             </div>
             {viewMode === 'list' && (
               <button 
@@ -212,6 +222,13 @@ function App() {
                 {showForm ? '✕ Закрыть' : '+ Новая запись'}
               </button>
             )}
+            <button 
+              className="feedback-button"
+              onClick={() => setShowFeedback(true)}
+              title="Обратная связь"
+            >
+              <FaCommentDots />
+            </button>
             <button 
               className="logout-button"
               onClick={handleLogout}
@@ -241,7 +258,9 @@ function App() {
           />
         )}
 
-        {viewMode === 'habits' ? (
+        {viewMode === 'news' ? (
+          <News />
+        ) : viewMode === 'habits' ? (
           <Habits />
         ) : viewMode === 'calendar' ? (
           <Calendar 
@@ -281,6 +300,10 @@ function App() {
               ))
             )}
           </div>
+        )}
+
+        {showFeedback && (
+          <Feedback onClose={() => setShowFeedback(false)} />
         )}
       </div>
     </div>

@@ -165,6 +165,31 @@
   user-select: none;
 }
 
+.feedback-button {
+  background: rgba(93, 175, 179, 0.15);
+  color: #7BC4C9;
+  border: 2px solid rgba(93, 175, 179, 0.3);
+  padding: 0.75rem 1rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  position: relative;
+  z-index: 101;
+  pointer-events: auto;
+}
+
+.feedback-button:hover {
+  background: rgba(93, 175, 179, 0.25);
+  border-color: rgba(93, 175, 179, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(93, 175, 179, 0.3);
+}
+
 .logout-button {
   background: rgba(239, 68, 68, 0.15);
   color: #EF4444;
@@ -419,6 +444,11 @@
 
   .add-button {
     width: 100%;
+  }
+
+  .feedback-button {
+    width: 100%;
+    padding: 0.875rem;
   }
 
   .logout-button {
