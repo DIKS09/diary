@@ -17,7 +17,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingEntry, setEditingEntry] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [token, setToken] = useState(localStorage.getItem('user_id'));
   const [username, setUsername] = useState(localStorage.getItem('username'));
   const [viewMode, setViewMode] = useState('list'); // 'list', 'calendar', 'habits', или 'news'
   const [showFeedback, setShowFeedback] = useState(false);

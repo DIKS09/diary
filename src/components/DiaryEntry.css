@@ -122,54 +122,28 @@
   gap: 0.5rem;
 }
 
-.edit-button {
+.edit-button,
+.delete-button {
   background: rgba(93, 175, 179, 0.15);
-  border: 1px solid rgba(93, 175, 179, 0.3);
-  border-radius: 8px;
+  border: 2px solid rgba(93, 175, 179, 0.3);
+  border-radius: 50px;
   font-size: 0.9rem;
   cursor: pointer;
-  opacity: 0.8;
   transition: all 0.3s ease;
   padding: 0.6rem 0.7rem;
   display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;
-  color: #5DAFB3;
+  color: #7BC4C9;
 }
 
-.edit-button:hover {
-  opacity: 1;
-  transform: scale(1.1);
+.edit-button:hover,
+.delete-button:hover {
   background: rgba(93, 175, 179, 0.25);
   border-color: rgba(93, 175, 179, 0.5);
-  color: #7BC4C9;
+  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(93, 175, 179, 0.3);
-}
-
-.delete-button {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 8px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  opacity: 0.8;
-  transition: all 0.3s ease;
-  padding: 0.6rem 0.7rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  color: #EF4444;
-}
-
-.delete-button:hover {
-  opacity: 1;
-  transform: scale(1.1) rotate(5deg);
-  background: rgba(239, 68, 68, 0.2);
-  border-color: rgba(239, 68, 68, 0.5);
-  color: #DC2626;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
 .entry-content {
@@ -189,11 +163,11 @@
 }
 
 .expand-button {
-  background: linear-gradient(135deg, rgba(93, 175, 179, 0.2) 0%, rgba(123, 196, 201, 0.2) 100%);
-  border: 1px solid rgba(93, 175, 179, 0.3);
-  border-radius: 20px;
+  background: rgba(93, 175, 179, 0.15);
+  border: 2px solid rgba(93, 175, 179, 0.3);
+  border-radius: 50px;
   color: #7BC4C9;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   font-size: 0.8rem;
   padding: 0.5rem 1.25rem;
@@ -204,11 +178,10 @@
 }
 
 .expand-button:hover {
-  color: #E8F5F5;
-  background: linear-gradient(135deg, rgba(93, 175, 179, 0.3) 0%, rgba(123, 196, 201, 0.3) 100%);
-  border-color: #5DAFB3;
+  background: rgba(93, 175, 179, 0.25);
+  border-color: rgba(93, 175, 179, 0.5);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(93, 175, 179, 0.3);
+  box-shadow: 0 4px 15px rgba(93, 175, 179, 0.3);
 }
 
 @media (max-width: 768px) {
