@@ -140,37 +140,38 @@
 }
 
 .day-indicator {
-  width: 28px;
-  height: 28px;
-  background: linear-gradient(135deg, rgba(93, 175, 179, 0.4) 0%, rgba(93, 175, 179, 0.3) 100%);
-  border: 2px solid rgba(93, 175, 179, 0.5);
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(135deg, #5DAFB3 0%, #4A9DA1 100%);
+  border: 2px solid #7BC4C9;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
-  color: #7BC4C9;
+  font-size: 0.9rem;
+  color: white;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(93, 175, 179, 0.3);
+  box-shadow: 0 3px 8px rgba(93, 175, 179, 0.6);
 }
 
 .calendar-day:hover .day-indicator {
-  background: linear-gradient(135deg, rgba(93, 175, 179, 0.6) 0%, rgba(93, 175, 179, 0.4) 100%);
-  border-color: #5DAFB3;
-  transform: scale(1.1);
-  box-shadow: 0 3px 10px rgba(93, 175, 179, 0.5);
+  background: linear-gradient(135deg, #6BC0C4 0%, #5AAFB3 100%);
+  border-color: #8FD4D8;
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px rgba(93, 175, 179, 0.8);
 }
 
 .more-indicator {
   font-size: 0.75rem;
-  color: #E8F5F5;
+  color: white;
   font-weight: 700;
   margin-left: 0.25rem;
   user-select: none;
-  background: rgba(93, 175, 179, 0.4);
-  padding: 0.2rem 0.4rem;
+  background: linear-gradient(135deg, #5DAFB3 0%, #4A9DA1 100%);
+  padding: 0.25rem 0.5rem;
   border-radius: 6px;
-  border: 1px solid rgba(93, 175, 179, 0.5);
+  border: 2px solid #7BC4C9;
+  box-shadow: 0 2px 6px rgba(93, 175, 179, 0.5);
 }
 
 .selected-date-entries {

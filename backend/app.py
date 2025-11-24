@@ -379,17 +379,19 @@ def get_news():
         # Получаем API ключ из переменных окружения
         news_api_key = os.getenv('NEWS_API_KEY')
         
-        if not news_api_key:
-            # Если нет API ключа, возвращаем демо-новости
+        if not news_api_key or news_api_key == 'your_news_api_key_here':
+            # Если нет API ключа, возвращаем инструкции
             return jsonify({
+                'error': 'NEWS_API_KEY не настроен',
+                'setup_required': True,
                 'articles': [
                     {
-                        'title': 'Настройте API ключ для получения новостей',
-                        'description': 'Добавьте NEWS_API_KEY в файл .env для получения реальных новостей. Зарегистрируйтесь на newsapi.org',
-                        'url': 'https://newsapi.org',
+                        'title': '⚙️ Настройка API ключа для новостей',
+                        'description': 'Для получения реальных новостей:\n\n1. Зарегистрируйтесь на https://newsapi.org/register\n2. Скопируйте ваш API ключ\n3. Создайте файл backend/.env (скопируйте backend/env.example)\n4. Добавьте строку: NEWS_API_KEY=ваш_ключ_здесь\n5. Перезапустите сервер',
+                        'url': 'https://newsapi.org/register',
                         'urlToImage': None,
                         'publishedAt': datetime.now().isoformat(),
-                        'source': {'name': 'Настройка'}
+                        'source': {'name': 'Инструкция по настройке'}
                     }
                 ]
             }), 200

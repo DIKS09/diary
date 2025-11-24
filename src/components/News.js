@@ -71,13 +71,16 @@ function News() {
       setError(null);
       
       const response = await fetch(`${API_URL}/news?category=${selectedCategory}`);
-      
-      if (!response.ok) {
-        throw new Error('Не удалось загрузить новости');
-      }
-      
       const data = await response.json();
-      setNews(data.articles || []);
+      
+      // Если пришли статьи (даже инструкция по настройке), показываем их
+      if (data.articles && data.articles.length > 0) {
+        setNews(data.articles);
+      } else if (!response.ok) {
+        throw new Error('Не удалось загрузить новости');
+      } else {
+        setNews([]);
+      }
     } catch (err) {
       setError(err.message || 'Ошибка при загрузке новостей');
       console.error('Error fetching news:', err);
@@ -185,31 +188,36 @@ function News() {
         </div>
       ) : (
         <div className="news-grid">
-          {news.map((article, index) => (
-            <article key={index} className="news-card">
-              {article.urlToImage && (
-                <div className="news-image">
-                  <img src={article.urlToImage} alt={article.title} />
+          {news.map((article, index) => {
+            const isSetupInstruction = article.source?.name === 'Инструкция по настройке';
+            return (
+              <article key={index} className={`news-card ${isSetupInstruction ? 'setup-instruction' : ''}`}>
+                {article.urlToImage && (
+                  <div className="news-image">
+                    <img src={article.urlToImage} alt={article.title} />
+                  </div>
+                )}
+                <div className="news-content">
+                  <div className="news-meta">
+                    <span className="news-source">{article.source?.name}</span>
+                    <span className="news-date">{formatDate(article.publishedAt)}</span>
+                  </div>
+                  <h3 className="news-title">{article.title}</h3>
+                  <p className="news-description" style={{whiteSpace: 'pre-line'}}>
+                    {article.description}
+                  </p>
+                  <a 
+                    href={article.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="news-link"
+                  >
+                    {isSetupInstruction ? 'Получить API ключ' : 'Читать полностью'} <FaExternalLinkAlt />
+                  </a>
                 </div>
-              )}
-              <div className="news-content">
-                <div className="news-meta">
-                  <span className="news-source">{article.source?.name}</span>
-                  <span className="news-date">{formatDate(article.publishedAt)}</span>
-                </div>
-                <h3 className="news-title">{article.title}</h3>
-                <p className="news-description">{article.description}</p>
-                <a 
-                  href={article.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="news-link"
-                >
-                  Читать полностью <FaExternalLinkAlt />
-                </a>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
       )}
     </div>
